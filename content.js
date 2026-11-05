@@ -15,7 +15,7 @@ window.TOMROF_CONTENT = {
       photo: './perla-studio-v2.jpg',
       photoAlt: 'Perla Crystal, lunettes rondes et chemise à carreaux rouges',
       instrument: 'Basse · Chant · Ukulélé',
-      bio: 'Bassiste, chanteuse et ukuléliste, Perla Crystal a traversé de nombreux univers musicaux au sein de groupes comme Les Vierges, Les Êtres humains, Les Moufles, Les Cigales, Les Pétroleuses, Les Surprises, Les Uk’n Ladies, Les Miss’U, Ukulele Paradise, Les Virganautes, Son of a Gun et Electric Comédie.\n\nSon parcours est aussi fait de rencontres et de collaborations avec Pascal Comelade, Tony Truant, Les Olivensteins, Jean-Marie Pons, Cyril Lefebvre, Dora Lou, Mr Bosseigne, la Compagnie La Zita et Tchikipa.\n\nElle a enregistré une dizaine d’albums et poursuit ses aventures musicales avec deux nouveaux albums et un EP en préparation.'
+      bio: 'Bassiste, chanteuse et ukuléliste, Perla Crystal a traversé de nombreux univers musicaux au sein de groupes comme Les Vierges, Les Êtres humains, Les Moufles, Les Cigales, Les Pétroleuses, Les Surprises, Les Uk’n Ladies, Les Miss’U, Ukulele Paradise, Les Virganautes, Son of a Gun et Electric Comédie.\n\nSon parcours est aussi fait de rencontres et de collaborations avec Pascal Comelade, Tony Truant, Les Olivensteins, Jean-Marie Pons, Cyril Lefebvre, Dora Lou, la Compagnie La Zita et Tchikipa.\n\nElle a enregistré une dizaine d’albums et poursuit ses aventures musicales avec deux nouveaux albums et un EP en préparation.'
     },
     {
       name: 'Fred Maggesi',
