@@ -4,3 +4,4 @@
 .musician-photo{display:block;width:100%;height:340px;object-fit:cover;object-position:center 30%;margin:0 0 24px;background:#ded6c2}.musician-grid .with-photo:first-child{display:grid;grid-template-columns:minmax(220px,.75fr) minmax(0,1.5fr);align-items:start;gap:32px}.musician-grid .with-photo:first-child .musician-photo{height:auto;object-fit:contain;margin:0}.musician-text{min-width:0}@media(max-width:700px){.musician-grid .with-photo:first-child{grid-template-columns:1fr;gap:24px}.musician-grid .with-photo:first-child .musician-photo{max-width:420px;margin:auto}.musician-photo{height:auto;max-height:520px;object-fit:contain}}
 
 .musician-grid .content-item:last-child .musician-photo{height:auto;object-fit:contain}
+

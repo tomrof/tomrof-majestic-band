@@ -17,7 +17,7 @@ window.TOMROF_CONTENT = {
     },
     {
       "name": "Fred Maggesi",
-      "photo": "./fred-batterie-studio-v3.jpg",
+      "photo": "./fred-batterie-studio-v4.jpg",
       "photoAlt": "Fred Maggesi derrière sa batterie, sur fond studio",
       "instrument": "Batterie",
       "bio": "Ancien batteur des Sévères, avec deux albums chez L’Autre Distribution, Fred Maggesi partage son parcours entre compositions, reprises, enregistrements en studio et tournées en France, en Allemagne, en Italie, en Suisse, en Belgique et au Luxembourg.\n\nDu rock des années 1980 à la chanson des années 2000, il a participé à de nombreux projets : The Dirteez, avec un album produit par Chris Wilson des Flamin’ Groovies ; Nazim, avec un album mixé par Dominique Brusson (Dominique A, Miossec) ; et Paradis Minuit (ex-OTH).\n\nIl a joué avec des musiciens des Têtes Raides, de la Mano Negra, de FFF et de Jean Leloup, et assuré les premières parties de Sanseverino, Noir Désir, Tryo, La Rue Kétanou, Les Ogres de Barback et Yann Tiersen. Son parcours l’a mené notamment au Zénith, au Gibus Club à Paris, à la Maroquinerie, au Rockstore et au Printemps de Bourges."
