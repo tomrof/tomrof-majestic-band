@@ -4,3 +4,5 @@
 .order-steps{border-top:1px solid var(--line);margin-top:24px;padding-top:14px}.order-steps h4{font-size:18px;margin:16px 0 10px}.order-steps ol{padding-left:22px;font-size:14px}.order-steps li{margin:10px 0}.order-steps .button,.paypal-button{display:block;text-align:center;margin:12px 0}.paypal-button{background:#f2c74e;color:#172d50;border:1px solid #172d50;padding:13px 18px;font-size:13px;font-weight:700;text-decoration:none}.paypal-button:hover{background:#ffda68}.order-steps .small{font-size:11px}
 
 .custom-example{margin:20px 0;max-width:340px}.custom-example img{display:block;width:100%;height:auto}.custom-example figcaption{font-size:11px;color:var(--muted);margin-top:8px}
+
+.shop-video{margin-top:36px;padding:25px;background:var(--paper);color:var(--ink)}.shop-video h3{margin:0 0 20px}.shop-video video{display:block;width:100%;max-width:360px;max-height:640px;margin:auto;background:#171714}.shop-video .small{text-align:center}
