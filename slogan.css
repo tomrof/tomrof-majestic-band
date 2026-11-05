@@ -1,0 +1,1 @@
+.hero h1.slogan{font-size:clamp(28px,3.7vw,54px);line-height:1.1;letter-spacing:-1px;margin:0 0 28px}.hero h1.slogan em{display:block;margin-top:14px}@media(max-width:850px){.hero h1.slogan{font-size:clamp(24px,3.8vw,34px)}}@media(max-width:580px){.hero h1.slogan{font-size:clamp(28px,7.5vw,44px);letter-spacing:-.6px}}

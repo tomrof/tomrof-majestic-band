@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Tomrof and the Majestic Band",
+  "short_name": "Tomrof",
+  "description": "Musique, clips et univers rockabilly de Tomrof and the Majestic Band.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3eddb",
+  "theme_color": "#c93620",
+  "icons": [
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"}
+  ]
+}
