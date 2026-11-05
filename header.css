@@ -1,0 +1,1 @@
+.header .wordmark{font-size:clamp(24px,2.3vw,34px);line-height:1.12;letter-spacing:.2px;max-width:52%;text-wrap:balance}.header nav{flex-wrap:wrap;justify-content:flex-end}@media(max-width:850px){.header .wordmark{max-width:75%;font-size:28px}.header nav{justify-content:flex-start}}@media(max-width:580px){.header .wordmark{font-size:24px;max-width:72%}}
