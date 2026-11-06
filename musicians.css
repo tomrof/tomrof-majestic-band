@@ -5,3 +5,4 @@
 
 .musician-grid .content-item:last-child .musician-photo{height:auto;object-fit:contain}
 
+.musician-grid .content-item:nth-child(2) .musician-photo{height:auto;object-fit:contain}
