@@ -6,7 +6,6 @@ menu.addEventListener('click', () => {
   const open = menu.getAttribute('aria-expanded') !== 'true';
   menu.setAttribute('aria-expanded', String(open));
   $('#navigation').classList.toggle('open', open);
-  if (soundEnabled) playSiteSound('jack').catch(() => {});
 });
 
 const soundButton = $('#nav-sound');
@@ -50,19 +49,16 @@ function ring(frequency, start, duration, type, peak) {
 }
 
 if (AudioContext) {
-  try { soundEnabled = localStorage.getItem('tomrof-menu-sound') === 'on'; } catch {}
   soundButton.hidden = false;
-  document.querySelectorAll('#boutique .paypal-button').forEach(button => {
-    button.addEventListener('click', () => {
-      if (soundEnabled) playSiteSound('cash').catch(() => {});
-    });
-  });
-  soundButton.setAttribute('aria-pressed', String(soundEnabled));
+  syncSoundButton();
   soundButton.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     soundButton.setAttribute('aria-pressed', String(soundEnabled));
-    try { localStorage.setItem('tomrof-menu-sound', soundEnabled ? 'on' : 'off'); } catch {}
-    if (soundEnabled) playSiteSound('jack').catch(() => {});
+    if (soundEnabled) {
+      audioContext ||= new AudioContext();
+      audioContext.resume().then(syncSoundButton).catch(() => {});
+    }
+    syncSoundButton();
   });
 }
 
@@ -77,12 +73,39 @@ const menuNotes = {
 $('#navigation').addEventListener('click', (event) => {
   const link = event.target.closest('a');
   if (link) {
-    const frequency = menuNotes[link.getAttribute('href')];
-    if (soundEnabled && frequency) playSiteSound('note', frequency).catch(() => {});
     menu.setAttribute('aria-expanded', 'false');
     $('#navigation').classList.remove('open');
   }
 });
+
+function syncSoundButton() {
+  soundButton.textContent = soundEnabled && audioContext?.state === 'running'
+    ? 'Sons du site · activés'
+    : 'Activer les sons du site';
+}
+
+function bindSound(target, effect, frequency) {
+  const play = () => {
+    if (soundEnabled && audioContext?.state === 'running') {
+      playSiteSound(effect, frequency).catch(() => {});
+    }
+  };
+  target.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse' || event.pointerType === 'pen') play();
+  });
+  target.addEventListener('click', event => {
+    if (event.pointerType === 'touch') play();
+  });
+}
+
+if (AudioContext) {
+  bindSound(menu, 'jack');
+  document.querySelectorAll('#navigation a').forEach(link => {
+    bindSound(link, 'note', menuNotes[link.getAttribute('href')]);
+  });
+  document.querySelectorAll('#boutique .paypal-button').forEach(link => bindSound(link, 'cash'));
+}
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
     menu.setAttribute('aria-expanded', 'false'); $('#navigation').classList.remove('open'); menu.focus();
