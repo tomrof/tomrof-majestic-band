@@ -7,8 +7,71 @@ menu.addEventListener('click', () => {
   menu.setAttribute('aria-expanded', String(open));
   $('#navigation').classList.toggle('open', open);
 });
+
+const soundButton = $('#nav-sound');
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let soundEnabled = false;
+let audioContext;
+
+async function playMenuSound(frequency, cashRegister = false) {
+  audioContext ||= new AudioContext();
+  if (audioContext.state !== 'running') await audioContext.resume();
+  if (!soundEnabled) return;
+
+  const start = audioContext.currentTime;
+  if (cashRegister) {
+    // A short drawer clack followed by two metallic bell tones.
+    ring(110, start, 0.065, 'square', 0.045);
+    ring(1318.51, start + 0.055, 0.24, 'sine', 0.09);
+    ring(1975.53, start + 0.065, 0.30, 'sine', 0.06);
+    return;
+  }
+  ring(frequency, start, 0.19, 'triangle', 0.10);
+}
+
+function ring(frequency, start, duration, type, peak) {
+  const note = audioContext.createOscillator();
+  const volume = audioContext.createGain();
+  note.type = type;
+  note.frequency.value = frequency;
+  volume.gain.setValueAtTime(0.001, start);
+  volume.gain.exponentialRampToValueAtTime(peak, start + 0.008);
+  volume.gain.exponentialRampToValueAtTime(0.001, start + duration - 0.01);
+  note.connect(volume).connect(audioContext.destination);
+  note.start(start);
+  note.stop(start + duration);
+}
+
+if (AudioContext) {
+  try { soundEnabled = localStorage.getItem('tomrof-menu-sound') === 'on'; } catch {}
+  soundButton.hidden = false;
+  document.querySelectorAll('#boutique .paypal-button').forEach(button => {
+    button.addEventListener('click', () => {
+      if (soundEnabled) playMenuSound(0, true).catch(() => {});
+    });
+  });
+  soundButton.setAttribute('aria-pressed', String(soundEnabled));
+  soundButton.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundButton.setAttribute('aria-pressed', String(soundEnabled));
+    try { localStorage.setItem('tomrof-menu-sound', soundEnabled ? 'on' : 'off'); } catch {}
+    if (soundEnabled) playMenuSound(329.63).catch(() => {});
+  });
+}
+
+const menuNotes = {
+  '#musique': 329.63,
+  '#groupe': 392,
+  '#concerts': 440,
+  '#actualites': 493.88,
+  '#boutique': 587.33,
+};
+
 $('#navigation').addEventListener('click', (event) => {
-  if (event.target.closest('a')) {
+  const link = event.target.closest('a');
+  if (link) {
+    const frequency = menuNotes[link.getAttribute('href')];
+    if (soundEnabled && frequency) playMenuSound(frequency).catch(() => {});
     menu.setAttribute('aria-expanded', 'false');
     $('#navigation').classList.remove('open');
   }
