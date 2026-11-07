@@ -51,7 +51,16 @@ function renderList(selector, entries, fields) {
       const photo = document.createElement('img');
       photo.src = item.photo; photo.alt = item.photoAlt || item.name;
       photo.className = 'musician-photo'; photo.loading = 'lazy'; photo.decoding = 'async';
-      article.append(photo); article.classList.add('with-photo');
+      if (item.photoCredit) {
+        const figure = document.createElement('figure');
+        figure.className = 'musician-portrait';
+        const credit = textElement('figcaption', `Photo : ${item.photoCredit}`);
+        figure.append(photo, credit);
+        article.append(figure);
+      } else {
+        article.append(photo);
+      }
+      article.classList.add('with-photo');
       textContainer = document.createElement('div'); textContainer.className = 'musician-text';
       article.append(textContainer);
     }

@@ -12,6 +12,7 @@ window.TOMROF_CONTENT = {
       "name": "Perla Crystal",
       "photo": "./perla-basse-studio-v3.jpg",
       "photoAlt": "Perla Crystal avec sa basse Rickenbacker sur fond studio",
+      "photoCredit": "Eric Catarina",
       "instrument": "Basse · Chant · Ukulélé",
       "bio": "Bassiste, chanteuse et ukuléliste, Perla Crystal a traversé de nombreux univers musicaux au sein de groupes comme Les Vierges, Les Êtres humains, Les Moufles, Les Cigales, Les Pétroleuses, Les Surprises, Les Uk’n Ladies, Les Miss’U, Ukulele Paradise, Les Virganautes, Son of a Gun et Electric Comédie.\n\nSon parcours est aussi fait de rencontres et de collaborations avec Pascal Comelade, Tony Truant, Les Olivensteins, Cyril Lefebvre, Dora Lou, la Compagnie La Zita et Tchikipa.\n\nElle a enregistré une dizaine d’albums et poursuit ses aventures musicales avec deux nouveaux albums et un EP en préparation."
     },

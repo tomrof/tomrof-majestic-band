@@ -6,3 +6,14 @@
 .musician-grid .content-item:last-child .musician-photo{height:auto;object-fit:contain}
 
 .musician-grid .content-item:nth-child(2) .musician-photo{height:auto;object-fit:contain}
+
+.musician-portrait {
+  margin: 0 0 24px;
+}
+.musician-portrait .musician-photo {
+  margin-bottom: 6px;
+}
+.musician-portrait figcaption {
+  color: var(--muted);
+  font-size: 13px;
+}
