@@ -12,6 +12,25 @@ const soundButton = $('#nav-sound');
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let soundEnabled = false;
 let audioContext;
+const recordings = {
+  mail: './son-courrier.mp3',
+  cash: './son-caisse.mp3',
+};
+const soundBuffers = new Map();
+
+function loadRecording(effect) {
+  if (!soundBuffers.has(effect)) {
+    const decoded = fetch(recordings[effect]).then(response => {
+      if (!response.ok) throw new Error('Effet sonore indisponible');
+      return response.arrayBuffer();
+    }).then(bytes => audioContext.decodeAudioData(bytes)).catch(error => {
+      soundBuffers.delete(effect);
+      throw error;
+    });
+    soundBuffers.set(effect, decoded);
+  }
+  return soundBuffers.get(effect);
+}
 
 async function playSiteSound(effect, frequency) {
   audioContext ||= new AudioContext();
@@ -25,11 +44,15 @@ async function playSiteSound(effect, frequency) {
     ring(380, start, 0.03, 'triangle', 0.045);
     return;
   }
-  if (effect === 'cash') {
-    // A short drawer clack followed by two metallic bell tones.
-    ring(110, start, 0.065, 'square', 0.045);
-    ring(1318.51, start + 0.055, 0.24, 'sine', 0.09);
-    ring(1975.53, start + 0.065, 0.30, 'sine', 0.06);
+  if (effect in recordings) {
+    const buffer = await loadRecording(effect);
+    if (!soundEnabled || audioContext.state !== 'running') return;
+    const source = audioContext.createBufferSource();
+    const volume = audioContext.createGain();
+    source.buffer = buffer;
+    volume.gain.value = 0.45;
+    source.connect(volume).connect(audioContext.destination);
+    source.start();
     return;
   }
   ring(frequency, start, 0.19, 'triangle', 0.10);
@@ -57,6 +80,7 @@ if (AudioContext) {
     if (soundEnabled) {
       audioContext ||= new AudioContext();
       audioContext.resume().then(syncSoundButton).catch(() => {});
+      for (const effect of Object.keys(recordings)) loadRecording(effect).catch(() => {});
     }
     syncSoundButton();
   });
@@ -103,6 +127,8 @@ if (AudioContext) {
   document.querySelectorAll('#navigation a').forEach(link => {
     bindSound(link, 'note', menuNotes[link.getAttribute('href')]);
   });
+  const mail = document.querySelector('#boutique .order-steps a.button[href^="mailto:"]');
+  if (mail) bindSound(mail, 'mail');
   document.querySelectorAll('#boutique .paypal-button').forEach(link => bindSound(link, 'cash'));
 }
 
