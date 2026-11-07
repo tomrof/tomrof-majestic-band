@@ -6,6 +6,7 @@ menu.addEventListener('click', () => {
   const open = menu.getAttribute('aria-expanded') !== 'true';
   menu.setAttribute('aria-expanded', String(open));
   $('#navigation').classList.toggle('open', open);
+  if (soundEnabled) playSiteSound('jack').catch(() => {});
 });
 
 const soundButton = $('#nav-sound');
@@ -13,13 +14,19 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 let soundEnabled = false;
 let audioContext;
 
-async function playMenuSound(frequency, cashRegister = false) {
+async function playSiteSound(effect, frequency) {
   audioContext ||= new AudioContext();
   if (audioContext.state !== 'running') await audioContext.resume();
   if (!soundEnabled) return;
 
   const start = audioContext.currentTime;
-  if (cashRegister) {
+  if (effect === 'jack') {
+    ring(55, start, 0.145, 'sawtooth', 0.065);
+    ring(110, start + 0.006, 0.10, 'square', 0.025);
+    ring(380, start, 0.03, 'triangle', 0.045);
+    return;
+  }
+  if (effect === 'cash') {
     // A short drawer clack followed by two metallic bell tones.
     ring(110, start, 0.065, 'square', 0.045);
     ring(1318.51, start + 0.055, 0.24, 'sine', 0.09);
@@ -47,7 +54,7 @@ if (AudioContext) {
   soundButton.hidden = false;
   document.querySelectorAll('#boutique .paypal-button').forEach(button => {
     button.addEventListener('click', () => {
-      if (soundEnabled) playMenuSound(0, true).catch(() => {});
+      if (soundEnabled) playSiteSound('cash').catch(() => {});
     });
   });
   soundButton.setAttribute('aria-pressed', String(soundEnabled));
@@ -55,7 +62,7 @@ if (AudioContext) {
     soundEnabled = !soundEnabled;
     soundButton.setAttribute('aria-pressed', String(soundEnabled));
     try { localStorage.setItem('tomrof-menu-sound', soundEnabled ? 'on' : 'off'); } catch {}
-    if (soundEnabled) playMenuSound(329.63).catch(() => {});
+    if (soundEnabled) playSiteSound('jack').catch(() => {});
   });
 }
 
@@ -71,7 +78,7 @@ $('#navigation').addEventListener('click', (event) => {
   const link = event.target.closest('a');
   if (link) {
     const frequency = menuNotes[link.getAttribute('href')];
-    if (soundEnabled && frequency) playMenuSound(frequency).catch(() => {});
+    if (soundEnabled && frequency) playSiteSound('note', frequency).catch(() => {});
     menu.setAttribute('aria-expanded', 'false');
     $('#navigation').classList.remove('open');
   }
