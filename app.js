@@ -10,7 +10,11 @@ menu.addEventListener('click', () => {
 
 const soundButton = $('#nav-sound');
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-let soundEnabled = false;
+const soundPreferenceKey = 'tomrof-site-sounds';
+let soundEnabled = true;
+try {
+  soundEnabled = localStorage.getItem(soundPreferenceKey) !== 'off';
+} catch {}
 let audioContext;
 const recordings = {
   mail: './son-courrier.mp3',
@@ -71,19 +75,34 @@ function ring(frequency, start, duration, type, peak) {
   note.stop(start + duration);
 }
 
+function prepareAudio() {
+  audioContext ||= new AudioContext();
+  for (const effect of Object.keys(recordings)) loadRecording(effect).catch(() => {});
+}
+
+async function unlockAudio() {
+  if (!soundEnabled || audioContext?.state === 'running') return;
+  prepareAudio();
+  await audioContext.resume();
+}
+
 if (AudioContext) {
   soundButton.hidden = false;
   syncSoundButton();
   soundButton.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
-    soundButton.setAttribute('aria-pressed', String(soundEnabled));
-    if (soundEnabled) {
-      audioContext ||= new AudioContext();
-      audioContext.resume().then(syncSoundButton).catch(() => {});
-      for (const effect of Object.keys(recordings)) loadRecording(effect).catch(() => {});
-    }
+    try { localStorage.setItem(soundPreferenceKey, soundEnabled ? 'on' : 'off'); } catch {}
     syncSoundButton();
+    if (soundEnabled) unlockAudio().catch(() => {});
   });
+
+  if (soundEnabled) {
+    try { prepareAudio(); } catch {}
+  }
+  // Browsers may suspend audio until the visitor interacts with the page.
+  for (const event of ['click', 'keydown']) {
+    document.addEventListener(event, () => unlockAudio().catch(() => {}));
+  }
 }
 
 const menuNotes = {
@@ -103,9 +122,8 @@ $('#navigation').addEventListener('click', (event) => {
 });
 
 function syncSoundButton() {
-  soundButton.textContent = soundEnabled && audioContext?.state === 'running'
-    ? 'Sons du site · activés'
-    : 'Activer les sons du site';
+  soundButton.setAttribute('aria-pressed', String(soundEnabled));
+  soundButton.textContent = soundEnabled ? 'Sons du site · activés' : 'Activer les sons du site';
 }
 
 function bindSound(target, effect, frequency) {
@@ -118,7 +136,9 @@ function bindSound(target, effect, frequency) {
     if (event.pointerType === 'mouse' || event.pointerType === 'pen') play();
   });
   target.addEventListener('click', event => {
-    if (event.pointerType === 'touch') play();
+    if (event.pointerType === 'touch' && soundEnabled) {
+      playSiteSound(effect, frequency).catch(() => {});
+    }
   });
 }
 
